@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,7 @@ import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.gd6_c_0795.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,10 +32,10 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
 
         binding!!.btn1.setOnClickListener{
-            sendNotifiaction1()
+            sendNotification1()
         }
         binding!!.btn2.setOnClickListener{
-            sendNotifiaction2()
+            sendNotification2()
         }
     }
 
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendNotifiaction1(){
+    private fun sendNotification1(){
         val intent: Intent = Intent(this, MainActivity::class.java).apply{
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -66,11 +69,28 @@ class MainActivity : AppCompatActivity() {
         broadcastIntent.putExtra("toastMessage", binding?.etMessage?.text.toString())
         val actionIntent = PendingIntent.getBroadcast(this,0,broadcastIntent,PendingIntent.FLAG_UPDATE_CURRENT)
 
+//        val picture = BitmapFactory.decodeResource(resources,R.drawable.donation)
         val builder = NotificationCompat.Builder(this,CHANNEL_ID_1)
             .setSmallIcon(R.drawable.ic_baseline_looks_one_24)
             .setContentTitle(binding?.etTitle?.text.toString())
             .setContentText(binding?.etMessage?.text.toString())
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+
+//                Big Picture Style
+//            .setLargeIcon(picture)
+//            .setStyle(NotificationCompat.BigPictureStyle()
+//                .bigLargeIcon(null)
+//                .bigPicture(picture))
+//                Inbox Style
+//            .setStyle(NotificationCompat.InboxStyle()
+//                .addLine("Ini Pesan 1")
+//                .addLine("Ini Pesan 2")
+//                .addLine("Ini Pesan 3")
+//                .addLine("Ini Pesan 4")
+//                .addLine("Ini Pesan 5")
+//                .addLine("Ini Pesan 6")
+//                .addLine("Ini Pesan 7")
+//                .setBigContentTitle("Ini Big Content Title"))
             .setColor(Color.BLUE)
             .setAutoCancel(true)
             .setOnlyAlertOnce(true)
@@ -83,13 +103,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendNotifiaction2(){
+    private fun sendNotification2(){
 
-        val builder = NotificationCompat.Builder(this,CHANNEL_ID_1)
+        val builder = NotificationCompat.Builder(this,CHANNEL_ID_2)
             .setSmallIcon(R.drawable.ic_baseline_looks_two_24)
             .setContentTitle(binding?.etTitle?.text.toString())
             .setContentText(binding?.etMessage?.text.toString())
             .setPriority(NotificationCompat.PRIORITY_LOW)
+//            Big Text Style
+//            .setStyle(NotificationCompat.BigTextStyle()
+//                .bigText(getString(R.string.text_dummy))
+//                .setBigContentTitle("Ini Big Content Title"))
 
         with(NotificationManagerCompat.from(this)){
             notify(notificationId2, builder.build())
